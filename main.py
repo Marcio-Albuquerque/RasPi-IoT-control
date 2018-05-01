@@ -13,11 +13,12 @@
 # V 0.1
 # * Implement on / off motor DC with object-oriented python (Check);
 # * Implement button push On/ Off (Check);
-# * Implement LCD;
+# * Implement LCD (Check);
 # * Implement simple graphical interface.
 #*#*#*#*#
 
 from motor import Motor
+from lcd import LCD
 import RPi.GPIO as GPIO
 import time
 
@@ -29,8 +30,9 @@ buttonPIN = 11
 GPIO.setup(buttonPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 objMotor = Motor(False) #Default startup - Off
-
+objLCD = LCD()
 try: #Interruption Structure
+    objLCD.setMessagem(">     Hello    <", 1)
     while True: #Loop programe
         
         input_state = GPIO.input(buttonPIN)
@@ -38,16 +40,21 @@ try: #Interruption Structure
         if input_state == False:
             print('Button Pressed')
             if objMotor.getStateMotor():           
+                
+                objLCD.setMessagem("Motor: Offline", 2)
                 objMotor.setStateMotor(False)
                 objMotor.setActionMotor()
-                #time.sleep(0.2)
+                
             else:
+                
+                objLCD.setMessagem("Motor: Online", 2)
                 objMotor.setStateMotor(True)
                 objMotor.setActionMotor()
-                #time.sleep(0.2)
+                
         time.sleep(0.2)
 
 except KeyboardInterrupt: #Interruption Structure
     GPIO.cleanup()
+    LCD().setFinish()
     pass 
     

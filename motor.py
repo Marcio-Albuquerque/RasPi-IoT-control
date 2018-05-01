@@ -16,7 +16,7 @@ from time import sleep
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
-motorPIN = 7 #Pin out
+motorPIN = 12 #Pin out
 
 GPIO.setup(motorPIN,GPIO.OUT) #Pin setup
 
