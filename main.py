@@ -18,18 +18,36 @@
 #*#*#*#*#
 
 from motor import Motor
+import RPi.GPIO as GPIO
+import time
 
-objMotor = Motor(False) #Default startup
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+buttonPIN = 11
+
+GPIO.setup(buttonPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+objMotor = Motor(False) #Default startup - Off
 
 try: #Interruption Structure
-    while True:
-        button = input("Start motor (Y/N) \n--> ")
-        if button == "Y":
-            objMotor.setStateMotor(True)
-            objMotor.setActionMotor()
-        else:
-            objMotor.setStateMotor(False)
-            objMotor.setActionMotor()
+    while True: #Loop programe
+        #button = input("Start motor (Y/N) \n--> ")
+        input_state = GPIO.input(buttonPIN)
+        #if button == "Y":
+        if input_state == False:
+            print('Button Pressed')
+            if objMotor.getStateMotor():           
+                objMotor.setStateMotor(False)
+                objMotor.setActionMotor()
+                #time.sleep(0.2)
+            else:
+                objMotor.setStateMotor(True)
+                objMotor.setActionMotor()
+                #time.sleep(0.2)
+        time.sleep(0.2)
+
 except KeyboardInterrupt: #Interruption Structure
-    pass
+    GPIO.cleanup()
+    pass 
     
