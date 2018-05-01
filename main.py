@@ -12,7 +12,7 @@
 # * TODO
 # V 0.1
 # * Implement on / off motor DC with object-oriented python (Check);
-# * Implement button push On/ Off;
+# * Implement button push On/ Off (Check);
 # * Implement LCD;
 # * Implement simple graphical interface.
 #*#*#*#*#
@@ -32,9 +32,9 @@ objMotor = Motor(False) #Default startup - Off
 
 try: #Interruption Structure
     while True: #Loop programe
-        #button = input("Start motor (Y/N) \n--> ")
+        
         input_state = GPIO.input(buttonPIN)
-        #if button == "Y":
+        
         if input_state == False:
             print('Button Pressed')
             if objMotor.getStateMotor():           
